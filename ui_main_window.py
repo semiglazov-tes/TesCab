@@ -12,7 +12,6 @@ class UIMainWindow(QMainWindow):
         self.setWindowTitle("Личный кабинет проектировщика")
         self.setWindowIcon(QIcon("img\\Icon.jpg"))
         self.splash=Splash(self)
-        self.menubar=self.menuBar()
-        self.menu=Menu(self.menubar)
+        self.menu=Menu(self.menuBar())
         self.show()
  
