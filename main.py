@@ -11,5 +11,5 @@ class mainWindow(UIMainWindow):
             
 if __name__=="__main__":
     app=QApplication(sys.argv)
-    mainwindow=mainWindow()
+    mainwindow=UIMainWindow()
     sys.exit(app.exec_())

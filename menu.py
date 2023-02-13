@@ -1,18 +1,18 @@
 ﻿# -*- coding: utf-8 -*-
 from PyQt5 import QtWidgets
-class Menu():
+class Menu(QtWidgets.QWidget):
         #Создание меню главного окна
-    def createMenu(self):
-        menubar=self.menuBar()
+    def __init__(self,menubar):
+        super().__init__()
         subMenu=menubar.addMenu("Отчеты")
         #Создание подменю "Отчет о питании"
         eatMenuTrigered=QtWidgets.QAction("Отчет о питании",self)
         eatMenuTrigered.triggered.connect(self.eatMenuClicked)
         subMenu.addAction(eatMenuTrigered)
         #Создание подменю "Рабочий отчет"
-        workMenuTrigered=QtWidgets.QAction("Рабочий отчет",self)
-        workMenuTrigered.triggered.connect(self.workMenuClicked)
-        subMenu.addAction(workMenuTrigered)
+        #workMenuTrigered=QtWidgets.QAction("Рабочий отчет",self)
+        #workMenuTrigered.triggered.connect(self.workMenuClicked)
+        #subMenu.addAction(workMenuTrigered)
 
         #Обработчик события нажатия на "Отчет о питании"
     def eatMenuClicked(self):
