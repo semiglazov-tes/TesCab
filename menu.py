@@ -10,13 +10,12 @@ class Menu(QtWidgets.QWidget):
         eatMenuTrigered.triggered.connect(self.eatMenuClicked)
         subMenu.addAction(eatMenuTrigered)
         #Создание подменю "Рабочий отчет"
-        #workMenuTrigered=QtWidgets.QAction("Рабочий отчет",self)
-        #workMenuTrigered.triggered.connect(self.workMenuClicked)
-        #subMenu.addAction(workMenuTrigered)
-
+        workMenuTrigered=QtWidgets.QAction("Рабочий отчет",self)
+        workMenuTrigered.triggered.connect(self.workMenuClicked)
+        subMenu.addAction(workMenuTrigered)
         #Обработчик события нажатия на "Отчет о питании"
     def eatMenuClicked(self):
-        self.eatCalendar=QtWidgets.QCalendarWidget(parent=self)
+        self.eatCalendar=QtWidgets.QCalendarWidget()
         self.eatCalendar.resize(200,200)
         self.eatCalendar.show()
         self.eatCalendar.activated.connect(self.showTwoDate)    

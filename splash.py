@@ -3,9 +3,9 @@ import time
 from PyQt5.QtWidgets import QSplashScreen
 from PyQt5.QtGui import QPixmap
 class Splash():
-       #Заставка перед запуском приложения
-    def splash_loading(self):
-        splash=QSplashScreen(QPixmap("img\SplashScreen.jpg"))
-        splash.show()
+    #Заставка перед запуском приложения
+    def __init__(self,mainwindow):
+        self.splash=QSplashScreen(QPixmap("img\SplashScreen.jpg"))
+        self.splash.show()
         time.sleep(3)
-        splash.finish(self)
+        self.splash.finish(mainwindow)
