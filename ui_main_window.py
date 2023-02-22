@@ -8,10 +8,10 @@ from splash import Splash
 class UIMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.resize(800,600)
+        self.setFixedSize(800,600)
         self.setWindowTitle("Личный кабинет проектировщика")
         self.setWindowIcon(QIcon("img\\Icon.jpg"))
         self.splash=Splash(self)
-        self.menu=Menu(self.menuBar())
+        self.menu=Menu(self)
         self.show()
  
