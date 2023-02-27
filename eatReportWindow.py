@@ -6,27 +6,12 @@ class EatReportWindow(QtWidgets.QWidget):
         #Создание основного контейнера
         self.container=QtWidgets.QWidget()
         self.container.setParent(mainWindow)
-
         #Создание календаря
         self.eatCalendar=QtWidgets.QCalendarWidget()
-        self.eatCalendar.setFixedSize(400,400)
-       
         #Создание таблицы дата/сумма
-        self.eatTable=QtWidgets.QTableView(self)
-        self.eatTable.setFixedSize(177,400)
-        #Создание подключения к базе данных
-        con = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        con.setDatabaseName("db\\testdb.db3")
-        con.open()
-        sqm = QtSql.QSqlQueryModel(self)
-        sqm.setQuery('select * from test')
-        sqm.setHeaderData(1, QtCore.Qt.Horizontal, 'Дата')
-        sqm.setHeaderData(2, QtCore.Qt.Horizontal, 'Сумма')
-        self.eatTable.setModel(sqm)
-        self.eatTable.hideColumn(0)
-        self.eatTable.setColumnWidth(1,80)
-        self.eatTable.setColumnWidth(2,80)
-        self.eatTable.show()
+        self.eatTable=EatTabletView()
+        self.eatTable.initializationEatTableView()
+        self.eatTable
         #Создание контейнера для выравнивания виджетов по горизонтали
         self.hbox =QtWidgets.QHBoxLayout()
         self.hbox.addWidget(self.eatTable)
@@ -41,10 +26,34 @@ class EatReportWindow(QtWidgets.QWidget):
         self.container.show()
 
         #привязка события двойного щелчка ЛКМ на дату
-        self.eatCalendar.activated.connect(self.showTwoDate) 
+        self.eatCalendar.activated.connect(self.twoClickOnDate) 
 
         #Обработчик события двойного нажатия левой кнопкой мыши на дату QCalendarWidget
-    def showTwoDate(self):
-        print(self.eatCalendar.selectedDate())
+    def twoClickOnDate(self):
         selectedDateStr=self.eatCalendar.selectedDate().toString("yyyy.MM.dd")
         print(selectedDateStr)
+
+class EatTabletView(QtWidgets.QTableView):
+    def __init__(self):
+        super().__init__()
+        self.sizePolicy=QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding);
+        self.setSizePolicy(self.sizePolicy)
+        self.verticalHeader().setVisible(False)
+        self.horizontalHeader().setSectionResizeMode(1)
+    """def resizeEvent(self, event):   self.resize(event.size())"""
+
+    def initializationEatTableView(self):
+        #Создание подключения к базе данных для первичного отображения таблицы-оточета по питанию
+        con = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        con.setDatabaseName("db\\tesCabDb.db3")
+        con.open()
+        sqm = QtSql.QSqlQueryModel()
+        sqm.setQuery('select * from tesEatReport')
+        sqm.setHeaderData(1, QtCore.Qt.Horizontal, 'Дата')
+        sqm.setHeaderData(2, QtCore.Qt.Horizontal, 'Сумма')
+        self.setModel(sqm)
+        self.hideColumn(0)
+        self.show()
+        con.close()
+    
+        
