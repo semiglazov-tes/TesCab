@@ -36,19 +36,33 @@ class EatTabletView(QtWidgets.QTableView):
     #Первичное отображение таблицы дата-сумма при превом открытии вкладки "Отчет о питании"
     def initializationEatTableView(self):
         #Создание подключения к базе данных для первичного отображения таблицы-оточета по питанию
-        con = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        con = QtSql.QSqlDatabase.addDatabase("QSQLITE")
         con.setDatabaseName("db\\tesCabDb.db3")
         con.open()
-        sqm = QtSql.QSqlQueryModel()
-        sqm.setQuery('select * from tesEatReport')
-        sqm.setHeaderData(1, QtCore.Qt.Horizontal, 'Дата')
-        sqm.setHeaderData(2, QtCore.Qt.Horizontal, 'Сумма')
-        self.setModel(sqm)
-        self.hideColumn(0)
-        if sqm.rowCount()==0:
+        #Если в таблице нет записей окно EatTabletView не отображается, при наличии записей они отображаюстя в EatTabletView
+        query=QtSql.QSqlQuery()
+        query.exec("select * from tesEatReport")
+        numberOfRows=self.getNumberOfRows(query) 
+        if numberOfRows==19:
             self.hide()
+            print("1")
+        else:     
+            sqm = QtSql.QSqlQueryModel()
+            sqm.setQuery('select * from tesEatReport')
+            sqm.setHeaderData(1, QtCore.Qt.Horizontal, 'Дата')
+            sqm.setHeaderData(2, QtCore.Qt.Horizontal, 'Сумма')
+            self.setModel(sqm)
+            self.hideColumn(0)
+            print("2")
         con.close()
-        
+    #Получение количество записей в таблице   
+    def getNumberOfRows(self,query):
+        numberOfRows=0
+        if(query.last()):
+            numberOfRows =query.at() + 1;
+            query.first()
+        return numberOfRows
+
 class EatCalendar(QtWidgets.QCalendarWidget):
     def __init__(self):
         super().__init__()
